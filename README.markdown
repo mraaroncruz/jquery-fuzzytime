@@ -28,6 +28,7 @@ to make the date explicit ex. '35 minutes ago', send a value of true as the seco
 
 ## Thanks to:
 the [Kohana project's](http://kohanaframework.com) date helper 
+
 [rmm5t](http://github.com/rmm5t/jquery-timeago) for the iso8601 method to make facebook possible
 
 ## TODO
