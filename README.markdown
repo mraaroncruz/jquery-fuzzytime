@@ -14,6 +14,10 @@ There are two kinds of times that you can pull out of fuzzytime
 
 ## Use:
 
+include the jquery.fuzzytime.js or jquery.fuzzytime.min.js after your jquery script inclusion in your html
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.fuzzytime.min.js"></script>
+
 send your Twitter, Facebook, Unix or Javascript formatted timestamp to the $.fuzzytime() function
     var myFaceBookDate = '2010-10-19T02:57:48+0000';
     var myPrettyTime = $.fuzzytime(myFaceBookDate) // returns something like 'a couple weeks ago'
