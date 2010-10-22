@@ -32,5 +32,5 @@ the [Kohana project's](http://kohanaframework.com) date helper
 [rmm5t](http://github.com/rmm5t/jquery-timeago) for the iso8601 method to make facebook possible
 
 ## TODO
-
+-    Future doesn't yet work.  I ran out of time.  Pun intended.
 -    Tests!!!  This development driven testing needs to stop.  I'm soooo lazy.
