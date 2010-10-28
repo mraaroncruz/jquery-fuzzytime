@@ -88,7 +88,7 @@
                 {val : month,  string : 'month'},
                 {val : year,   string : 'year'}
             ];
-
+            
         this.parse  =  function () {
             stamp = new Date(timestamp).valueOf(); // is it Twitter etc. ?
             if(!stamp) stamp = this.iso8601(timestamp); // is it Facebook?
@@ -131,8 +131,10 @@
         }
     }
 
-    $.fuzzytime = function (timestamp,implicit,now) {
-        var fuzzy = new Fuzzy(timestamp,implicit,now);
-        return fuzzy.parse();
-    };
+    $.extend({
+        fuzzytime : function (timestamp,implicit,now) {
+            var fuzzy = new Fuzzy(timestamp,implicit,now);
+            return fuzzy.parse();
+        } 
+    });
 }(jQuery));
