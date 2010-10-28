@@ -1,8 +1,6 @@
 
 # Fuzzytime jquery time prettifying plugin
 
-Doesn't yet work with IE
-
 ## What it does
 
 There are two kinds of times that you can pull out of fuzzytime

@@ -90,7 +90,9 @@
             ];
             
         this.parse  =  function () {
-            stamp = new Date(timestamp).valueOf(); // is it Twitter etc. ?
+            pattern = /UTC/;
+            // if timestamp doesn't have UTC but has a +, add the UTC or IE will fuck up...
+            var stamp = new Date((!pattern.test(timestamp)) ? timestamp.replace(/\+/,'UTC+') : timestamp); // is it Twitter etc. ?
             if(!stamp) stamp = this.iso8601(timestamp); // is it Facebook?
             if(!stamp) return 'some time ago'; // well then, I guess I have to make it vague!
 
