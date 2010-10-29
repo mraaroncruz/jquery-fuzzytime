@@ -26,11 +26,9 @@
  */
  
 (function ($) {
-    var Fuzzy = function (timestamp,implicit,now) {
+    var Fuzzy = function (implicit,now) {
         var implicit = implicit || false,
             now      = now      || new Date().valueOf(),
-            stamp,
-            offset,
             year     = 31556926,
             month    = 2629744,
             week     = 604800,
@@ -89,15 +87,26 @@
                 {val : year,   string : 'year'}
             ];
             
-        this.parse  =  function () {
-            // if timestamp doesn't have UTC but has a +, add the UTC or IE will fuck up...
-            var stamp = new Date(timestamp.replace(/(UTC)?\+/,'UTC+')); // is it Twitter etc. ?
-            if(!stamp) stamp = this.iso8601(timestamp); // is it Facebook?
-            if(!stamp) return 'some time ago'; // well then, I guess I have to make it vague!
+        this.parse  =  function (timestamp) {
+            var timestamp = timestamp || new Date(),
+                future    = false,
+                offset,
+                stamp;
+            // check for iso8601
+            if(/\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\+\d{4}/.test(timestamp)){
+                stamp = this.iso8601(timestamp);
+            }else{
+                // if timestamp doesn't have UTC but has a +, add the UTC or IE will fuck up...
+                stamp = new Date(timestamp.replace(/(\d\d:\d\d:\d\d\s)\+/,'\1 GMT+')).valueOf(); // for Twitter, vanilla js, etc. ?
+            }
+            offset = (now - stamp)/1000;
+            if (offset < 0) future = true;
+            
+            offset = Math.abs(offset);
 
-            offset = Math.abs((now - stamp)/1000)
-
-            if(!implicit){
+            if(!span){
+                return !future ? 'some time ago' : 'in some time';
+            }else if(!implicit){
                 for (var i=0; i < times.length; i++) {
                     if(offset < times[i]){
                         span = fuzzies[i];
@@ -119,9 +128,9 @@
                     }
                 };
             }
-            return offset > 0 ? span + ' ago' : 'in ' + span;
+            return !future ? span + ' ago' : 'in ' + span;
         };
-        // facebook uses iso8601 for date encoding
+        // facebook, for example, uses iso8601 for date encoding
         this.iso8601 = function (timestamp) {
             var s = $.trim(timestamp);
             s = s.replace(/\.\d\d\d+/, ""); // remove milliseconds
@@ -134,8 +143,8 @@
 
     $.extend({
         fuzzytime : function (timestamp,implicit,now) {
-            var fuzzy = new Fuzzy(timestamp,implicit,now);
-            return fuzzy.parse();
+            var fuzzy = new Fuzzy(implicit,now);
+            return fuzzy.parse(timestamp);
         } 
     });
 }(jQuery));
