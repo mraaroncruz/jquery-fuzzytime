@@ -97,7 +97,7 @@
                 stamp = this.iso8601(timestamp);
                 console.log("is iso8601");
             }else{
-                if (jQuery.browser.msie)
+                if (navigator && (/msie/i).test(navigator.userAgent))
                     stamp = new Date(timestamp.replace(/(\d\d:\d\d:\d\d\s)\+/,'\1 GMT+')).valueOf();
                 else
                     stamp = new Date(timestamp).valueOf();
@@ -135,7 +135,7 @@
         };
         // facebook, for example, uses iso8601 for date encoding
         this.iso8601 = function (timestamp) {
-            var s = $.trim(timestamp);
+            var s = timestamp.replace(/^\s*(.*)\s*$/,'');
             s = s.replace(/\.\d\d\d+/, ""); // remove milliseconds
             s = s.replace(/-/, "/").replace(/-/, "/");
             s = s.replace(/T/, " ").replace(/Z/, " UTC");
@@ -143,11 +143,11 @@
             return new Date(s).valueOf();  
         }
     }
-
-    $.extend({
-        fuzzytime : function (timestamp,implicit,now) {
+    // monkeypatch number and string classes
+    for (var i = 0, klasses = [Number, String]; i < klasses.length; i++) {
+        klasses[i].prototype.fuzzytime = function (implicit,now) {
             var fuzzy = new Fuzzy(implicit,now);
-            return fuzzy.parse(timestamp);
-        } 
-    });
-}(jQuery));
+            return fuzzy.parse(this);
+        };
+    }
+}());

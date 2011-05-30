@@ -9,13 +9,15 @@
     <div >
         
     </div>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
-<script type="text/javascript" src="../jquery.fuzzytime.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script type="text/javascript" src="../fuzzytime.js"></script>
+<script type="text/javascript" src="../jquery.fuzzytime.js"></script>
 <script type="text/javascript">
     $(function(){
-        var d = 'Fri Oct 31 2010 15:44:08 +0200 (CEST)';
+        var d = 'Fri Mar 31 2011 15:44:08 +0200 (CEST)';
         //alert(new Date().valueOf() + "<br />");
-        alert($.fuzzytime(d,true));
+        console.log($.fuzzytime(d));
+        console.log(d.fuzzytime());
     })
 </script>
 </body>
